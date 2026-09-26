@@ -5,12 +5,13 @@ using UnityEngine.UI;
 public class Basket : MonoBehaviour {
 
 	public Text scoreGT;
+	private int score = 0;
 
 	//  initialization
 	void Start () {
 		GameObject scoreGO = GameObject.Find("ScoreCounter");
 		scoreGT = scoreGO.GetComponent<Text>();
-		scoreGT.text = "0";
+		scoreGT.text = "Score: 0";
 	
 	}
 	
@@ -26,15 +27,23 @@ public class Basket : MonoBehaviour {
 
 	void OnCollisionEnter( Collision coll ) {
 		GameObject collidedWith = coll.gameObject;
-		if (collidedWith.CompareTag("Apple")){
-        Destroy(collidedWith);
-
-        int score = int.Parse(scoreGT.text);
-        score += 100;
-        scoreGT.text = score.ToString();
-
-        if (score > HighScore.score)
-			HighScore.score = score;
+		if (collidedWith.CompareTag("EvilApple")){
+			Destroy(collidedWith);
+			ApplePicker apScript = Camera.main.GetComponent<ApplePicker>();
+    		apScript.GameOver();
+			return;
     	}
+
+		if (collidedWith.CompareTag("Apple")){
+			Destroy(collidedWith);
+
+			score += 100;
+			scoreGT.text = score.ToString();
+
+			if (score > HighScore.score)
+			{
+				HighScore.score = score;
+			}
+		}
 	}
 }

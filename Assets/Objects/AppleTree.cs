@@ -4,11 +4,14 @@ using System.Collections;
 public class AppleTree : MonoBehaviour {
 
 	public GameObject applePrefab;
+	public GameObject evilApplePrefab;
+
+	
 	public float speed = 1f;
 	public float leftAndRightEdge = 10f;
 	public float chanceToChangeDirections = 0.1f;
 	public float secondsBetweenAppleDrops = 1f;
-
+	public float evilAppleChance = 0.05f;
 
 	// Use this for initialization
 	void Start () {
@@ -37,7 +40,13 @@ public class AppleTree : MonoBehaviour {
 	}
 
 	void DropApple() {
-		GameObject apple = Instantiate( applePrefab ) as GameObject;
-		apple.transform.position = transform.position;
+	    if (Random.value < evilAppleChance){
+			GameObject evilApple = Instantiate(evilApplePrefab) as GameObject;
+			evilApple.transform.position = transform.position;
+		}
+		else{
+			GameObject apple = Instantiate(applePrefab) as GameObject;
+			apple.transform.position = transform.position;
+		}
 	}
 }
